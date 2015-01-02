@@ -6,6 +6,8 @@ from prettytable import PrettyTable
 import urllib2
 import itertools 
 import csv
+import json
+import sys
 
 def initial_Scrape():
 	## Fetches Metadata from url
