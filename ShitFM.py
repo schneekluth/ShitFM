@@ -135,6 +135,7 @@ out_csv.writerows(in_txt)
 print ">>> Saving playlist.csv SUCCESSFUL."
 
 # Convert playlist.csv to JSON
+fieldnames=["Date","Time","Artist","Song"]
 csv_filename = "playlist.csv"
 print "   Opening CSV file: >>",csv_filename
 f=open(csv_filename, 'r')
