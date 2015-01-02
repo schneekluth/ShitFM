@@ -6,7 +6,6 @@ from prettytable import PrettyTable
 import urllib2
 import itertools 
 import csv
-import odswriter as ods
 
 def initial_Scrape():
 	## Fetches Metadata from url
@@ -123,7 +122,7 @@ html, array_Dates_Meta, array_Times_Meta, array_Dates_URL, array_Times_URL = ini
 urls_final = generate_URLS()
 
 # Pass URLs to Scraper
-
+print ">>> SCRAPING URLs"
 for url in urls_final:
 	Scrape(url)
 
@@ -133,13 +132,20 @@ csv_file = r"playlist.csv"
 in_txt = csv.reader(open(txt_file, "rb"), delimiter = '\t')
 out_csv = csv.writer(open(csv_file, 'wb'))
 out_csv.writerows(in_txt)
+print ">>> Saving playlist.csv SUCCESSFUL."
 
-with ods.writer(open("playlist.ods","wb")) as odsfile:
-	for i in in_txt:
-		odsfile.writerow([i[0], i[1], i[2], i[4]])
-
-# Convert Data from Scrape(url) to .ods-file using python-odswriter
-
-
+# Convert playlist.csv to JSON
+csv_filename = "playlist.csv"
+print "   Opening CSV file: >>",csv_filename
+f=open(csv_filename, 'r')
+csv_reader = csv.DictReader(f,fieldnames)
+json_filename = csv_filename.split(".")[0]+".json"
+print "Saving JSON to file: >>",json_filename
+jsonf = open(json_filename,'w')
+data = json.dumps([r for r in csv_reader])
+jsonf.write(data)
+f.close()
+jsonf.close()
+print ">>> Saving playlist.json SUCCESSFUL."
 
 print "\n FINISHED PRINTING SCRAPE DATA\n"
